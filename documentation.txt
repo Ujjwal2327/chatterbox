@@ -16,4 +16,15 @@ prisma queries
   await prisma.user.create({
     data: { email, name, about, profilePicture },
   });
+  await prisma.user.findMany({
+    orderBy: { name: "asc" },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      profilePicture: true,
+      about: true,
+    },
+  });
 
+https://youtu.be/keYFkLycaDg?si=mTNch-0bNi2FihbT&t=14870

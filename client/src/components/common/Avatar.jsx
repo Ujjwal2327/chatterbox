@@ -85,6 +85,7 @@ function Avatar({ type, image, setImage }) {
               alt="avatar"
               className="rounded-full"
               fill
+              sizes="2.5rem"
             />
           </div>
         )}
@@ -95,6 +96,7 @@ function Avatar({ type, image, setImage }) {
               alt="avatar"
               className="rounded-full"
               fill
+              sizes="3.5rem"
             />
           </div>
         )}
