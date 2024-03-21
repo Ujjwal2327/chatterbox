@@ -80,19 +80,29 @@ function Avatar({ type, image, setImage }) {
       <div className="flex item-center justify-center">
         {type === "sm" && (
           <div className="relative h-10 w-10">
-            <Image src={image} alt="avatar" className="rounded-full" fill />
+            <Image
+              src={image || "/default_avatar.png"}
+              alt="avatar"
+              className="rounded-full"
+              fill
+            />
           </div>
         )}
         {type === "lg" && (
           <div className="relative h-14 w-14">
-            <Image src={image} alt="avatar" className="rounded-full" fill />
+            <Image
+              src={image || "/default_avatar.png"}
+              alt="avatar"
+              className="rounded-full"
+              fill
+            />
           </div>
         )}
         {type === "xl" && (
           <div className="relative cursor-pointer z-0 group">
             <div className="h-60 w-60 relative">
               <Image
-                src={image}
+                src={image || "/default_avatar.png"}
                 alt="avatar"
                 className="rounded-full"
                 fill

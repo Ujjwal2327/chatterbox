@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { IoIosClose } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 function CapturePhoto({ setImage, setShowCapturePhoto }) {
   const videoRef = useRef(null);
@@ -32,7 +32,7 @@ function CapturePhoto({ setImage, setShowCapturePhoto }) {
           className="pt-2 pr-2 cursor-pointer flex items-end justify-end"
           onClick={() => setShowCapturePhoto(false)}
         >
-          <IoIosClose className="h-10 w-10" />
+          <IoClose className="h-10 w-10" />
         </div>
         <div className="flex justify-center">
           <video id="video" width={400} autoPlay ref={videoRef}></video>

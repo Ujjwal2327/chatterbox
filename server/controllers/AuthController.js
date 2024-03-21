@@ -10,7 +10,7 @@ export const checkUser = async (req, res, next) => {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) return res.json({ message: "User not found.", status: false });
 
-    return res.json({ message: "User found", status: true, data: user });
+    return res.json({ message: "User found", status: true, user });
   } catch (error) {
     next(error);
   }
@@ -27,7 +27,7 @@ export const onBoardUser = async (req, res, next) => {
       data: { email, name, about, profilePicture },
     });
 
-    return res.json({ message: "success", status: true, data: user });
+    return res.json({ message: "success", status: true, user });
   } catch (error) {
     next(error);
   }

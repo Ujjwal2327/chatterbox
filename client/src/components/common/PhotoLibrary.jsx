@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { IoIosClose } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 function PhotoLibrary({ setImage, setShowPhotoLibrary }) {
   const images = [
@@ -22,7 +22,7 @@ function PhotoLibrary({ setImage, setShowPhotoLibrary }) {
           className="pt-2 pr-2 cursor-pointer flex items-end justify-end"
           onClick={() => setShowPhotoLibrary(false)}
         >
-          <IoIosClose className="h-10 w-10" />
+          <IoClose className="h-10 w-10" />
         </div>
 
         <div className="grid grid-cols-3 justify-center items-center gap-16 p-20 w-full">

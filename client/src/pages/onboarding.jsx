@@ -13,9 +13,7 @@ function onboarding() {
   const [{ userInfo, newUser }, dispatch] = useStateProvider();
   const [name, setName] = useState(userInfo?.name || "");
   const [about, setAbout] = useState("");
-  const [image, setImage] = useState(
-    userInfo?.profileImage || "/default_avatar.png"
-  );
+  const [image, setImage] = useState(userInfo?.profileImage);
 
   useEffect(() => {
     if (!newUser && !userInfo?.email) router.push("/login");
@@ -53,7 +51,7 @@ function onboarding() {
           dispatch({
             type: reducerCases.SET_USER_INFO,
             userInfo: {
-              id: data.data.id,
+              id: data.user.id,
               name,
               email,
               profileImage: image,

@@ -41,7 +41,7 @@ function login() {
           email,
           profilePicture: profileImage,
           about: status,
-        } = data.data;
+        } = data.user;
         dispatch({
           type: reducerCases.SET_USER_INFO,
           userInfo: {
