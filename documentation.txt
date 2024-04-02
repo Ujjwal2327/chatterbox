@@ -26,5 +26,3 @@ prisma queries
       about: true,
     },
   });
-
-https://youtu.be/keYFkLycaDg?si=mTNch-0bNi2FihbT&t=14870

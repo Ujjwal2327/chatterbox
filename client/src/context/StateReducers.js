@@ -1,10 +1,11 @@
 import { reducerCases } from "./constants";
 
 export const initialState = {
-  userInfo: undefined,
+  userInfo: null,
   newUser: false,
   contactsPage: false,
-  currentChatUser: undefined,
+  currentChatUser: null,
+  messages: [],
 };
 
 const reducer = (state, action) => {
@@ -17,6 +18,8 @@ const reducer = (state, action) => {
       return { ...state, contactsPage: !state.contactsPage };
     case reducerCases.CHANGE_CURRENT_CHAT_USER:
       return { ...state, currentChatUser: action.currentChatUser };
+    case reducerCases.SET_MESSAGES:
+      return { ...state, messages: action.messages };
     default:
       return state;
   }

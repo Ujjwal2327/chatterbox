@@ -6,7 +6,7 @@ import { firebaseAuth } from "@/utils/FirebaseConfig";
 import { useStateProvider } from "@/context/StateContext";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { CHECK_USER_ROUTE } from "@/utils/ApiRoutes";
+import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE } from "@/utils/ApiRoutes";
 import { reducerCases } from "@/context/constants";
 import Chat from "./Chat/Chat";
 
@@ -53,6 +53,20 @@ function Main() {
   useEffect(() => {
     if (redirectLogin) router.push("/login");
   }, [redirectLogin]);
+
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const { data } = await axios.get(
+          `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`
+        );
+        dispatch({ type: reducerCases.SET_MESSAGES, messages: data.messages });
+      } catch (error) {
+        console.log(`error in main/useEffect/getMessages: ${error}`);
+      }
+    };
+    if (userInfo?.id && currentChatUser?.id) getMessages();
+  }, [currentChatUser, userInfo]);
 
   return (
     <>
