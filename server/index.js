@@ -12,13 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/uploads/images", express.static("uploads/images"));
+app.use("/uploads/recordings", express.static("uploads/recordings"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
 const PORT = process.env.PORT || 3005;
 const server = app.listen(PORT, () => {
-  console.log(`Server started on port: ${process.env.PORT}`);
+  console.log(`Server started on port: ${process.env.PORT} baby`);
 });
 
 const io = new Server(server, {
@@ -36,7 +37,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send-msg", (data) => {
-    console.log(data);
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-receive", {

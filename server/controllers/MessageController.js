@@ -61,6 +61,7 @@ export const getMessages = async (req, res, next) => {
     next(error);
   }
 };
+
 export const addImageMessage = async (req, res, next) => {
   try {
     if (req.file) {
@@ -84,6 +85,34 @@ export const addImageMessage = async (req, res, next) => {
       return res.status(400).send("Invalid sender or receiver data");
     }
     return res.status(400).send("No image uploaded");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addAudioMessage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      const date = Date.now();
+      let fileName = `uploads/recordings/${date}-${req.file.originalname}`;
+      renameSync(req.file.path, fileName);
+      const prisma = getPrismaInstance();
+      const { from, to } = req.query;
+
+      if (from && to) {
+        const message = await prisma.message.create({
+          data: {
+            message: fileName,
+            type: "audio",
+            sender: { connect: { id: parseInt(from) } },
+            receiver: { connect: { id: parseInt(to) } },
+          },
+        });
+        res.status(201).json({ message });
+      }
+      return res.status(400).send("Invalid sender or receiver data");
+    }
+    return res.status(400).send("No Audio uploaded");
   } catch (error) {
     next(error);
   }
