@@ -12,3 +12,6 @@
   border-radius: 2px;
   scroll-behavior: smooth;
 }
+.epr-body {
+  @apply custom-scrollbar;
+}

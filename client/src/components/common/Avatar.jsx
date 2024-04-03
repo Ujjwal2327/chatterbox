@@ -62,6 +62,10 @@ function Avatar({ type, image, setImage }) {
 
   const PhotoPickerChange = (e) => {
     const file = e.target.files[0];
+    if (file.type.includes("image") === false) {
+      alert("Invalid file type. Please upload an image file.");
+      return;
+    }
     const reader = new FileReader();
     const data = document.createElement("img");
     reader.onload = (e) => {

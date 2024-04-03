@@ -1,25 +1,31 @@
 import { useStateProvider } from "@/context/StateContext";
-import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
-import React, { useState } from "react";
+import { ADD_IMAGE_MESSAGE_ROUTE, ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
+import React, { useEffect, useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 import axios from "axios";
 import { reducerCases } from "@/context/constants";
+import EmojiPicker from "emoji-picker-react";
+import PhotoPicker from "../common/PhotoPicker";
 
 function MessageBar() {
   const [{ userInfo, currentChatUser, socket, messages }, dispatch] =
     useStateProvider();
   const [message, setMessage] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const emojiPickerRef = useRef(null);
+  const [grabPhoto, setGrabPhoto] = useState(false);
+
   const handleSendMessage = async () => {
+    if (!message.trim()) return;
     try {
       const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
         message,
         from: userInfo?.id,
         to: currentChatUser?.id,
       });
-      // console.log("data",data)
       socket.emit("send-msg", {
         message: data.message,
         from: userInfo?.id,
@@ -28,12 +34,86 @@ function MessageBar() {
       dispatch({
         type: reducerCases.ADD_MESSAGE,
         newMessage: data.message,
+        fromSelf: true,
       });
       setMessage("");
     } catch (error) {
       console.log("error in messageBar/handleSendMessage: ", error);
     }
   };
+
+  const handleEmojiModal = () => {
+    setShowEmojiPicker(!showEmojiPicker);
+  };
+
+  const handleEmojiClick = (emoji) => {
+    setMessage((prev) => prev + emoji.emoji);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        emojiPickerRef.current &&
+        !emojiPickerRef.current.contains(e.target)
+      ) {
+        setShowEmojiPicker(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const PhotoPickerChange = async (e) => {
+    const file = e.target.files[0];
+
+    if (file.type.includes("image") === false) {
+      alert("Invalid file type. Please upload an image file.");
+      return;
+    }
+
+    try {
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("image", file);
+      const res = await axios.post(ADD_IMAGE_MESSAGE_ROUTE, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: {
+          from: userInfo.id,
+          to: currentChatUser.id,
+        },
+      });
+      if (res.status === 201) {
+        socket.emit("send-msg", {
+          message: res.data.message,
+          from: userInfo.id,
+          to: currentChatUser.id,
+        });
+        dispatch({
+          type: reducerCases.ADD_MESSAGE,
+          newMessage: res.data.message,
+          fromSelf: true,
+        });
+      }
+    } catch (error) {
+      console.log("error in messageBar/PhotoPickerChange: ", error);
+    }
+  };
+
+  useEffect(() => {
+    if (grabPhoto) {
+      document.getElementById("photo-picker-input").click();
+      document.body.onfocus = () => {
+        setTimeout(() => {
+          setGrabPhoto(false);
+        }, 1000);
+      };
+    }
+  }, [grabPhoto]);
 
   return (
     <div className="bg-panel-header-background h-20 px-4 flex items-center gap-6 relative">
@@ -42,10 +122,25 @@ function MessageBar() {
           <BsEmojiSmile
             className="text-panel-header-icon cursor-pointer text-xl"
             title="Emoji"
+            onClick={handleEmojiModal}
           />
+          {showEmojiPicker && (
+            <div
+              ref={emojiPickerRef}
+              className="absolute bottom-24 left-16 z-40"
+            >
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                theme="dark"
+                className="custom-scrollbar"
+              />
+            </div>
+          )}
+
           <ImAttachment
             className="text-panel-header-icon cursor-pointer text-xl"
             title="Attach File"
+            onClick={() => setGrabPhoto(true)}
           />
         </div>
 
@@ -56,6 +151,13 @@ function MessageBar() {
             className="bg-input-background text-sm focus:outline-none text-white h-10 rounded-lg px-5 py-4 w-full"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                handleSendMessage();
+              } else if (e.key === "Enter" && e.shiftKey) {
+                setMessage((prev) => prev + "\n");
+              }
+            }}
           />
         </div>
 
@@ -71,6 +173,7 @@ function MessageBar() {
           </button>
         </div>
       </>
+      {grabPhoto && <PhotoPicker onChange={PhotoPickerChange} />}
     </div>
   );
 }
