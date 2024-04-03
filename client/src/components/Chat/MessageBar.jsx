@@ -6,9 +6,11 @@ import { FaMicrophone } from "react-icons/fa";
 import { ImAttachment } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 import axios from "axios";
+import { reducerCases } from "@/context/constants";
 
 function MessageBar() {
-  const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
+  const [{ userInfo, currentChatUser, socket, messages }, dispatch] =
+    useStateProvider();
   const [message, setMessage] = useState("");
   const handleSendMessage = async () => {
     try {
@@ -16,6 +18,16 @@ function MessageBar() {
         message,
         from: userInfo?.id,
         to: currentChatUser?.id,
+      });
+      // console.log("data",data)
+      socket.emit("send-msg", {
+        message: data.message,
+        from: userInfo?.id,
+        to: currentChatUser?.id,
+      });
+      dispatch({
+        type: reducerCases.ADD_MESSAGE,
+        newMessage: data.message,
       });
       setMessage("");
     } catch (error) {

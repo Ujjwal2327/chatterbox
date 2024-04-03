@@ -10,4 +10,5 @@
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #ffffff3b;
   border-radius: 2px;
+  scroll-behavior: smooth;
 }

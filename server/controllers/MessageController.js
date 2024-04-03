@@ -14,7 +14,7 @@ export const addMessage = async (req, res, next) => {
           receiver: { connect: { id: parseInt(to) } },
           messageStatus: isReceiverOnline ? "delivered" : "sent",
         },
-        select: { sender: true, receiver: true },
+        // select: { sender: true, receiver: true },
       });
       return res.status(201).send({ message: newMessage });
     }

@@ -1,14 +1,27 @@
 import { useStateProvider } from "@/context/StateContext";
 import { calculateTime } from "@/utils/CalculateTime";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import MessageStatus from "../common/MessageStatus";
 
 function ChatContainer() {
   const [{ userInfo, currentChatUser, messages }] = useStateProvider();
 
-  console.log("messages: ", messages);
+  // Scroll to bottom of chat container
+  const chatContainerRef = useRef(null);
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.scrollTop =
+          chatContainerRef.current.scrollHeight;
+      }
+    }, 1000);
+  }, [messages]);
+
   return (
-    <div className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar">
+    <div
+      ref={chatContainerRef}
+      className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar"
+    >
       <div className=" bg-fixed h-full w-full absolute left-0 top-0 bg-opacity-5">
         <div className="mx-10 my-6 relative bottom-0 z-40 left-0">
           <div className="flex w-full">
@@ -24,7 +37,7 @@ function ChatContainer() {
                 >
                   {message.type === "text" && (
                     <div
-                      className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] ${
+                      className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${
                         message.senderId === currentChatUser.id
                           ? "bg-incoming-background"
                           : "bg-outgoing-background"
