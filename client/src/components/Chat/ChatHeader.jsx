@@ -1,14 +1,13 @@
 import React from "react";
 import Avatar from "../common/Avatar";
 import { MdCall } from "react-icons/md";
-import { IoVideocam } from "react-icons/io5";
+import { IoExitOutline, IoVideocam } from "react-icons/io5";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { useStateProvider } from "@/context/StateContext";
 import { reducerCases } from "@/context/constants";
 
 function ChatHeader() {
-  const [{ currentChatUser }, dispatch] = useStateProvider();
+  const [{ currentChatUser, onlineUsers }, dispatch] = useStateProvider();
 
   return (
     <div className="h-16 px-4 py-3 flex justify-between items-center bg-panel-header-background z-10">
@@ -16,7 +15,9 @@ function ChatHeader() {
         <Avatar type="sm" image={currentChatUser.profilePicture} />
         <div className="flex flex-col">
           <span className="text-primary-strong">{currentChatUser.name}</span>
-          <span className="text-secondary text-sm">online</span>
+          <span className="text-secondary text-sm">
+            {onlineUsers.includes(currentChatUser.id) ? "online" : "offline"}
+          </span>
         </div>
       </div>
       <div className="flex gap-6">
@@ -33,9 +34,15 @@ function ChatHeader() {
           title="Search message"
           onClick={() => dispatch({ type: reducerCases.SET_MESSAGE_SEARCH })}
         />
-        <BsThreeDotsVertical
+        <IoExitOutline
           className="text-panel-header-icon cursor-pointer text-xl"
-          title="More"
+          title="Exit Chat"
+          onClick={() =>
+            dispatch({
+              type: reducerCases.CHANGE_CURRENT_CHAT_USER,
+              currentChatUser: null,
+            })
+          }
         />
       </div>
     </div>

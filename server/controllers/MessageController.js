@@ -1,3 +1,4 @@
+import { on } from "events";
 import getPrismaInstance from "../utils/PrismaClient.js";
 import { renameSync } from "fs";
 
@@ -143,7 +144,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
     messages.forEach((msg) => {
       const isSender = msg.senderId === userId;
       const calculatedId = isSender ? msg.receiverId : msg.senderId;
-      if (msg.messageStatus === "sent") {
+      if (msg.messageStatus === "sent" && onlineUsers.get(calculatedId)) {
         messageStatusChange.push(msg.id);
       }
       const {

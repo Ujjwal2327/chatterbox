@@ -3,9 +3,12 @@ import Avatar from "../common/Avatar";
 import { useStateProvider } from "@/context/StateContext";
 import { BsFillChatLeftTextFill, BsThreeDotsVertical } from "react-icons/bs";
 import { reducerCases } from "@/context/constants";
+import { IoExitOutline } from "react-icons/io5";
+import { useRouter } from "next/router";
 
 function ChatListHeader() {
   const [{ userInfo }, dispatch] = useStateProvider();
+  const router = useRouter();
 
   const handleAllContactsPage = () => {
     dispatch({ type: reducerCases.SET_ALL_CONTACTS_PAGE });
@@ -23,9 +26,10 @@ function ChatListHeader() {
           onClick={handleAllContactsPage}
         />
         <>
-          <BsThreeDotsVertical
+          <IoExitOutline
             className="text-panel-header-icon cursor-pointer text-xl"
-            title="Menu"
+            title="Logout"
+            onClick={() => router.push("/logout")}
           />
         </>
       </div>

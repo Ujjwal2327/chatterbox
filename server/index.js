@@ -34,6 +34,9 @@ io.on("connection", (socket) => {
   global.chatSocket = socket;
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
+    socket.broadcast.emit("online-users", {
+      onlineUsers: Array.from(onlineUsers.keys()),
+    });
   });
 
   socket.on("send-msg", (data) => {
@@ -44,5 +47,12 @@ io.on("connection", (socket) => {
         message: data.message,
       });
     }
+  });
+
+  socket.on("signout", (userId) => {
+    onlineUsers.delete(userId);
+    socket.broadcast.emit("online-users", {
+      onlineUsers: Array.from(onlineUsers.keys()),
+    });
   });
 });

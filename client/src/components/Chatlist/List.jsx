@@ -6,7 +6,7 @@ import ChatLIstItem from "./ChatLIstItem";
 import { reducerCases } from "@/context/constants";
 
 function List() {
-  const [{ userInfo, userContacts, filteredContacts }, dispatch] =
+  const [{ userInfo, userContacts, filteredContacts, messages }, dispatch] =
     useStateProvider();
 
   useEffect(() => {
@@ -21,13 +21,13 @@ function List() {
           type: reducerCases.SET_USER_CONTACTS,
           userContacts: contacts,
         });
+        console.log(contacts);
       } catch (error) {
         console.log("error in List/getContacts: ", error);
       }
     };
     if (userInfo) getContacts();
-  }, [userInfo]);
-
+  }, [userInfo, dispatch, messages]);
 
   return (
     <div className="bg-search-input-container-background flex-auto overflow-scrollT max-h-full custom-scrollbar">
