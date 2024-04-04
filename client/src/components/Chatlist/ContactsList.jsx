@@ -9,18 +9,41 @@ import ChatLIstItem from "./ChatLIstItem";
 function ContactsList() {
   const [allContacts, setAllContacts] = useState({});
   const [{}, dispatch] = useStateProvider();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchContacts, setSearchContacts] = useState([]);
 
   useEffect(() => {
     const getContacts = async () => {
       try {
         const { data } = await axios.get(GET_ALL_CONTACTS_ROUTE);
         setAllContacts(data.usersGroups);
+        setSearchContacts(data.usersGroups);
       } catch (error) {
         console.log("error in contactsList/getContacts: ", error);
       }
     };
     getContacts();
   }, []);
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      const filteredContacts = Object.entries(allContacts).reduce(
+        (acc, [initialLetter, usersList]) => {
+          const filteredUsers = usersList.filter((user) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          if (filteredUsers.length > 0) {
+            acc[initialLetter] = filteredUsers;
+          }
+          return acc;
+        },
+        {}
+      );
+      setSearchContacts(filteredContacts);
+    } else {
+      setSearchContacts(allContacts);
+    }
+  }, [searchTerm]);
 
   return (
     <div className="h-full flex flex-col">
@@ -47,19 +70,21 @@ function ContactsList() {
                 type="text"
                 placeholder="Search Contacts"
                 className="bg-transparent text-sm focus:outline-none text-white w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
         </div>
 
-        {Object.entries(allContacts).map(([initialLetter, usersList]) => (
+        {Object.entries(searchContacts).map(([initialLetter, usersList]) => (
           <div key={initialLetter}>
             <div className="text-teal-light pl-10 py-5">{initialLetter}</div>
             {usersList.map((contact) => (
               <ChatLIstItem
                 key={contact.id}
                 data={contact}
-                isAllContactsPage={true}
+                isContactsPage={false}
               />
             ))}
           </div>
