@@ -27,7 +27,7 @@ function MessageBar() {
     if (!message.trim()) return;
     try {
       const { data } = await axios.post(ADD_MESSAGE_ROUTE, {
-        message,
+        message: message.trim(),
         from: userInfo?.id,
         to: currentChatUser?.id,
       });
