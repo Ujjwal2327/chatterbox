@@ -5,6 +5,7 @@ import {
   addMessage,
   getInitialContactsWithMessages,
   getMessages,
+  scheduleMessage,
 } from "../controllers/MessageController.js";
 import multer from "multer";
 
@@ -17,6 +18,7 @@ router.get("/get-messages/:from/:to", getMessages);
 router.post("/add-image-message", uploadImage.single("image"), addImageMessage);
 router.post("/add-audio-message", uploadAudio.single("audio"), addAudioMessage);
 router.get("/get-initial-contacts/:from", getInitialContactsWithMessages);
+router.post("/schedule-message", scheduleMessage);
 
 
 export default router;
