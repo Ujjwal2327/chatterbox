@@ -2,9 +2,9 @@ import { on } from "events";
 import getPrismaInstance from "../utils/PrismaClient.js";
 import { renameSync } from "fs";
 import { translate } from "./AWSTranslateController.js";
+import cron from "node-cron";
 
 export const addMessage = async (req, res, next) => {
-  const { message, senderId, receiverId } = req.body;
   try {
     const prisma = getPrismaInstance();
     const { message, from, to } = req.body;
@@ -211,6 +211,45 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
       contacts: Array.from(contacts.values()),
       onlineUsers: Array.from(onlineUsers.keys()),
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const scheduleMessage = async (req, res, next) => {
+  const { scheduledTime } = req.body;
+  try {
+    const task = cron.schedule(
+      scheduledTime,
+      async function () {
+        try {
+          const prisma = getPrismaInstance();
+          const { message, from, to } = req.body;
+          const isReceiverOnline = onlineUsers.get(to);
+          if (message && from && to) {
+            const newMessage = await prisma.message.create({
+              data: {
+                message,
+                sender: { connect: { id: parseInt(from) } },
+                receiver: { connect: { id: parseInt(to) } },
+                messageStatus: isReceiverOnline ? "delivered" : "sent",
+              },
+              // select: { sender: true, receiver: true },
+            });
+            return res.status(201).send({ message: newMessage });
+          }
+          return res
+            .status(400)
+            .send("Invalid message, sender or receiver data");
+        } catch (error) {
+          next(error);
+        }
+      },
+      {
+        scheduled: true,
+      }
+    );
+    task.start();
   } catch (error) {
     next(error);
   }
