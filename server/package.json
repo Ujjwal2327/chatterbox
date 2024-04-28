@@ -4,7 +4,9 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
+    "@aws-sdk/client-translate": "^3.564.0",
     "@prisma/client": "^4.14.0",
+    "aws-sdk": "^2.1608.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",

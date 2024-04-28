@@ -1,9 +1,11 @@
 import { useStateProvider } from "@/context/StateContext";
 import { calculateTime } from "@/utils/CalculateTime";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MessageStatus from "../common/MessageStatus";
 import ImageMessage from "./ImageMessage";
 import dynamic from "next/dynamic";
+// import { TRANSLATE_TEXT_ROUTE } from '@/utils/ApiRoutes';
+// import axios from 'axios';
 const VoiceMessage = dynamic(() => import("./VoiceMessage"), {
   ssr: false,
 });
@@ -14,6 +16,7 @@ function ChatContainer() {
   // Scroll to bottom of chat container
   const chatContainerRef = useRef(null);
   useEffect(() => {
+    console.log(messages);
     setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop =
@@ -21,6 +24,36 @@ function ChatContainer() {
       }
     }, 1000);
   }, [messages]);
+
+  //Text Translation with Amazon Translate api.
+  // useEffect(async () => {
+  //   const translateMessages = async () => {
+  //     // messages.forEach(async(message) => { 
+
+  //     //   const data = {targetLang: 'hi', text: message.message}
+  //     //   const res = await axios.post(TRANSLATE_TEXT_ROUTE,data);
+  //     //   message.message = res.translatedText
+  //     //   console.log(res)
+
+  //     // });
+  //     for (const message of messages) {
+  //       try {
+  //         const data = { targetLang: 'hi', text: message.message }
+  //         const res = await axios.post(TRANSLATE_TEXT_ROUTE, data);
+  //         message.message = res.translatedText
+  //         console.log(res)
+  //       } catch (error) {
+  //         console.log("error in translation")
+  //       }
+  //     }
+
+  //     // return messages;
+  //   }
+
+  //   await translateMessages();
+
+
+  // }, [messages])
 
   return (
     <div
@@ -34,19 +67,17 @@ function ChatContainer() {
               {messages.map((message, index) => (
                 <div
                   key={message.id}
-                  className={`flex ${
-                    message.senderId === currentChatUser.id
-                      ? "justify-start"
-                      : "justify-end"
-                  }`}
+                  className={`flex ${message.senderId === currentChatUser.id
+                    ? "justify-start"
+                    : "justify-end"
+                    }`}
                 >
                   {message.type === "text" && (
                     <div
-                      className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${
-                        message.senderId === currentChatUser.id
-                          ? "bg-incoming-background"
-                          : "bg-outgoing-background"
-                      }`}
+                      className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${message.senderId === currentChatUser.id
+                        ? "bg-incoming-background"
+                        : "bg-outgoing-background"
+                        }`}
                     >
                       <span className="break-all">{message.message}</span>
                       <div className="flex gap-1 items-end">

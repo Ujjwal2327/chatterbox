@@ -21,7 +21,7 @@ function List() {
           type: reducerCases.SET_USER_CONTACTS,
           userContacts: contacts,
         });
-        console.log(contacts);
+        // console.log(contacts);
       } catch (error) {
         console.log("error in List/getContacts: ", error);
       }

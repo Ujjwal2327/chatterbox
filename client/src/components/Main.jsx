@@ -7,7 +7,7 @@ import { firebaseAuth } from "@/utils/FirebaseConfig";
 import { useStateProvider } from "@/context/StateContext";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST } from "@/utils/ApiRoutes";
+import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST, TRANSLATE_TEXT_ROUTE } from "@/utils/ApiRoutes";
 import { reducerCases } from "@/context/constants";
 import Chat from "./Chat/Chat";
 import io from "socket.io-client";
@@ -16,10 +16,19 @@ import SearchMessages from "./Chat/SearchMessages";
 function Main() {
   const router = useRouter();
   const [redirectLogin, setRedirectLogin] = useState(false);
-  const [{ userInfo, currentChatUser, messagesSearch }, dispatch] =
+  const [{ userInfo, currentChatUser, messagesSearch, userLanguage }, dispatch] =
     useStateProvider();
   const socket = useRef();
   const [socketEvent, setSocketEvent] = useState(false);
+
+  // const translate = async (data) => {
+  //   const res = await axios.post(TRANSLATE_TEXT_ROUTE,{
+  //     targetLang: userLanguage,
+  //     text: data.message,
+  //   });
+
+  //   return res.translatedText;
+  // }
 
   onAuthStateChanged(firebaseAuth, async (firebaseUser) => {
     if (!firebaseUser) setRedirectLogin(true);
@@ -62,9 +71,10 @@ function Main() {
 
   useEffect(() => {
     const getMessages = async () => {
+      console.log(12345);
       try {
         const { data } = await axios.get(
-          `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}`
+          `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}/${userLanguage}`
         );
         dispatch({ type: reducerCases.SET_MESSAGES, messages: data.messages });
       } catch (error) {
@@ -87,8 +97,13 @@ function Main() {
 
   useEffect(() => {
     if (socket.current && !socketEvent) {
-      socket.current.on("msg-receive", (data) => {
+      socket.current.on("msg-receive", async(data) => {
         console.log("emit received", data);
+        // const res = await axios.post(TRANSLATE_TEXT_ROUTE,{
+        //   targetLang: userLanguage,
+        //   text: data.message,
+        // });
+        // data.message = await translate(data);
         dispatch({
           type: reducerCases.ADD_MESSAGE,
           newMessage: { ...data.message },

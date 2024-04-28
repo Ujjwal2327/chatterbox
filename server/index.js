@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/AuthRoutes.js";
 import messageRoutes from "./routes/MessageRoutes.js";
+import translateRoute from './routes/AWSTranslateRoute.js';
 import { Server } from "socket.io";
 
 dotenv.config();
@@ -16,10 +17,11 @@ app.use("/uploads/recordings", express.static("uploads/recordings"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/translate",translateRoute);
 
 const PORT = process.env.PORT || 3005;
 const server = app.listen(PORT, () => {
-  console.log(`Server started on port: ${process.env.PORT} baby`);
+  console.log(`Server started on port: ${process.env.PORT ? process.env.PORT : 3005} baby`);
 });
 
 const io = new Server(server, {

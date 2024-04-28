@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import ChatListHeader from "./ChatListHeader";
 import SearchBar from "./SearchBar";
 import List from "./List";
+import LanguageSelectorDropDown from './LanguageSelectorDropDown';
 import { useStateProvider } from "@/context/StateContext";
 import ContactsList from "./ContactsList";
 
 function ChatList() {
-  const [{ contactsPage }] = useStateProvider();
+  const [{ contactsPage,languageSelector }] = useStateProvider();
   const [pageType, setPageType] = useState("default");
 
   useEffect(() => {
@@ -20,6 +21,7 @@ function ChatList() {
         <>
           <ChatListHeader />
           <SearchBar />
+          {languageSelector && <LanguageSelectorDropDown/>}
           <List />
         </>
       )}

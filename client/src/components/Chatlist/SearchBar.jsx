@@ -1,12 +1,15 @@
 import { reducerCases } from "@/context/constants";
 import { useStateProvider } from "@/context/StateContext";
-import React from "react";
+import React,{useState} from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { BsFilter } from "react-icons/bs";
 
 function SearchBar() {
-  const [{ contactSearch }, dispatch] = useStateProvider();
-
+  const [{ contactSearch,languageSelector }, dispatch] = useStateProvider();
+  const handleClick = () =>{
+    if(languageSelector) dispatch({type: reducerCases.SET_LANGUAGE_SELECTOR, languageSelector:false})
+    else dispatch({type: reducerCases.SET_LANGUAGE_SELECTOR, languageSelector:true})
+  }
 
   return (
     <div className="bg-search-input-container-background flex items-center gap-3 h-14 py-3 pl-5">
@@ -31,7 +34,7 @@ function SearchBar() {
       </div>
 
       <div className="pr-5 pl-3">
-        <BsFilter className="text-panel-header-icon cursor-pointer text-xl" />
+        <BsFilter className="text-panel-header-icon cursor-pointer text-xl" onClick={() => handleClick()}/>
       </div>
     </div>
   );

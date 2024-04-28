@@ -1,6 +1,7 @@
 import { on } from "events";
 import getPrismaInstance from "../utils/PrismaClient.js";
 import { renameSync } from "fs";
+import { translate } from "./AWSTranslateController.js";
 
 export const addMessage = async (req, res, next) => {
   const { message, senderId, receiverId } = req.body;
@@ -27,7 +28,7 @@ export const addMessage = async (req, res, next) => {
 };
 
 export const getMessages = async (req, res, next) => {
-  const { from, to } = req.params;
+  const { from, to, userLanguage } = req.params;
   try {
     const prisma = getPrismaInstance();
     const messages = await prisma.message.findMany({
@@ -55,6 +56,16 @@ export const getMessages = async (req, res, next) => {
       where: { id: { in: unreadMessagesIDs } },
       data: { messageStatus: "read" },
     });
+
+    for (const message of messages) {
+      try {
+        const data = { targetLang: userLanguage, text: message.message }
+        if(userLanguage != 'null')
+          message.message = await translate(data);
+      } catch (error) {
+        console.log("error in translation: ", error)
+      }
+    }
 
     return res.status(200).json({ messages });
   } catch (error) {

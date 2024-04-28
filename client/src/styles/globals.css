@@ -15,3 +15,8 @@
 .epr-body {
   @apply custom-scrollbar;
 }
+
+
+#language-picker{
+  @apply bg-panel-header-background text-white text-center w-full
+}

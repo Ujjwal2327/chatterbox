@@ -15,7 +15,7 @@ const CaptureAudio = dynamic(() => import("../common/CaptureAudio"), {
 });
 
 function MessageBar() {
-  const [{ userInfo, currentChatUser, socket, messages }, dispatch] =
+  const [{ userInfo, currentChatUser, socket, messages,userLanguage }, dispatch] =
     useStateProvider();
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -35,6 +35,7 @@ function MessageBar() {
         message: data.message,
         from: userInfo?.id,
         to: currentChatUser?.id,
+        language: userLanguage,
       });
       dispatch({
         type: reducerCases.ADD_MESSAGE,
