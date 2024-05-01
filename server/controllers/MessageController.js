@@ -28,18 +28,30 @@ export const addMessage = async (req, res, next) => {
 };
 
 export const getMessages = async (req, res, next) => {
-  const { from, to, userLanguage } = req.params;
+  const { from, to, userLanguage, skipTimes = 0 } = req.params;
   try {
     const prisma = getPrismaInstance();
-    const messages = await prisma.message.findMany({
+    const totalMessages = await prisma.message.findMany({
       where: {
         OR: [
           { senderId: parseInt(from), receiverId: parseInt(to) },
           { senderId: parseInt(to), receiverId: parseInt(from) },
         ],
       },
-      orderBy: { createdAt: "asc" },
     });
+
+    const messages = await prisma.message.findMany({
+      where: {
+      OR: [
+          { senderId: parseInt(from), receiverId: parseInt(to) },
+          { senderId: parseInt(to), receiverId: parseInt(from) },
+        ],
+      },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      // skip: skipTimes * 5,
+    });
+    messages.reverse();
 
     const unreadMessagesIDs = [];
     messages.forEach((message, index) => {
@@ -59,15 +71,16 @@ export const getMessages = async (req, res, next) => {
 
     for (const message of messages) {
       try {
-        const data = { targetLang: userLanguage, text: message.message }
-        if(userLanguage != 'null')
+        if(message.senderId!== +from && userLanguage != "null"){  
+          const data = { targetLang: userLanguage, text: message.message };
           message.message = await translate(data);
+        }
       } catch (error) {
-        console.log("error in translation: ", error)
+        console.log("error in translation: ", error);
       }
     }
 
-    return res.status(200).json({ messages });
+    return res.status(200).json({ messages, totalMessages });
   } catch (error) {
     next(error);
   }
@@ -154,7 +167,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
 
     messages.forEach((msg) => {
       const isSender = msg.senderId === userId;
-      const calculatedId = isSender ? msg.receiverId : msg.senderId;
+      const calculatedId = isSender ? msg.receiverId : msg.senderId; // msg reciever id
       if (msg.messageStatus === "sent" && onlineUsers.get(calculatedId)) {
         messageStatusChange.push(msg.id);
       }

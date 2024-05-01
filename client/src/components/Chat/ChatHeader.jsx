@@ -21,14 +21,14 @@ function ChatHeader() {
         </div>
       </div>
       <div className="flex gap-6">
-        <MdCall
+        {/* <MdCall
           className="text-panel-header-icon cursor-pointer text-xl"
           title="Voice Call"
         />
         <IoVideocam
           className="text-panel-header-icon cursor-pointer text-xl"
           title="Video Call"
-        />
+        /> */}
         <BiSearchAlt2
           className="text-panel-header-icon cursor-pointer text-xl"
           title="Search message"

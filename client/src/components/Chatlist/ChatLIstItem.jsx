@@ -7,7 +7,7 @@ import MessageStatus from "../common/MessageStatus";
 import { FaCamera, FaMicrophone } from "react-icons/fa";
 
 function ChatLIstItem({ data, isContactsPage = false }) {
-  const [{ userInfo, currentChatUser }, dispatch] = useStateProvider();
+  const [{ userInfo }, dispatch] = useStateProvider();
 
   const handleContactClick = () => {
     if (!isContactsPage) {
@@ -42,16 +42,19 @@ function ChatLIstItem({ data, isContactsPage = false }) {
       <div className="min-h-full flex flex-col justify-center mt-3 pr-2 w-full">
         <div className="flex justify-between">
           <div>
-            <span className="text-white">{data.name}</span>
+            <span className="text-white line-clamp-1" title={data.name}>
+              {data.name}
+            </span>
           </div>
           {isContactsPage && (
             <div>
               <span
-                className={`text-sm ${
+                className={`text-sm line-clamp-1 ${
                   data.totalUnreadMessages > 0
                     ? "text-icon-green"
                     : "text-secondary"
                 }`}
+                title={calculateTime(data.createdAt)}
               >
                 {calculateTime(data.createdAt)}
               </span>
@@ -63,11 +66,13 @@ function ChatLIstItem({ data, isContactsPage = false }) {
             <span className="text-secondary line-clamp-1 text-sm">
               {isContactsPage ? (
                 <div className="flex items-center gap-1 max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[200px] xl:max-w-[300px]">
-                  {data.senderId === userInfo.id && (
+                  {data.senderId === userInfo?.id && (
                     <MessageStatus messageStatus={data.messageStatus} />
                   )}
                   {data.type === "text" && (
-                    <span className="truncate">{data.message}</span>
+                    <span className="truncate" title={data.message}>
+                      {data.message}
+                    </span>
                   )}
                   {data.type === "audio" && (
                     <span className="flex gap-1 items-center">

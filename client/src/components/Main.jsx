@@ -7,7 +7,12 @@ import { firebaseAuth } from "@/utils/FirebaseConfig";
 import { useStateProvider } from "@/context/StateContext";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { CHECK_USER_ROUTE, GET_MESSAGES_ROUTE, HOST, TRANSLATE_TEXT_ROUTE } from "@/utils/ApiRoutes";
+import {
+  CHECK_USER_ROUTE,
+  GET_MESSAGES_ROUTE,
+  HOST,
+  TRANSLATE_TEXT_ROUTE,
+} from "@/utils/ApiRoutes";
 import { reducerCases } from "@/context/constants";
 import Chat from "./Chat/Chat";
 import io from "socket.io-client";
@@ -16,10 +21,13 @@ import SearchMessages from "./Chat/SearchMessages";
 function Main() {
   const router = useRouter();
   const [redirectLogin, setRedirectLogin] = useState(false);
-  const [{ userInfo, currentChatUser, messagesSearch, userLanguage }, dispatch] =
-    useStateProvider();
+  const [
+    { userInfo, currentChatUser, messagesSearch, userLanguage },
+    dispatch,
+  ] = useStateProvider();
   const socket = useRef();
   const [socketEvent, setSocketEvent] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // const translate = async (data) => {
   //   const res = await axios.post(TRANSLATE_TEXT_ROUTE,{
@@ -46,6 +54,7 @@ function Main() {
             email,
             profilePicture: profileImage,
             about: status,
+            language,
           } = data.user;
           dispatch({
             type: reducerCases.SET_USER_INFO,
@@ -55,6 +64,7 @@ function Main() {
               email,
               profileImage,
               status,
+              language,
             },
           });
           router.push("/");
@@ -71,14 +81,16 @@ function Main() {
 
   useEffect(() => {
     const getMessages = async () => {
-      console.log(12345);
+      setLoading(true);
       try {
         const { data } = await axios.get(
-          `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}/${userLanguage}`
+          `${GET_MESSAGES_ROUTE}/${userInfo.id}/${currentChatUser.id}/${userInfo?.language}`
         );
         dispatch({ type: reducerCases.SET_MESSAGES, messages: data.messages });
       } catch (error) {
         console.log(`error in main/useEffect/getMessages: ${error}`);
+      } finally {
+        setLoading(false);
       }
     };
     if (userInfo?.id && currentChatUser?.id) getMessages();
@@ -97,7 +109,7 @@ function Main() {
 
   useEffect(() => {
     if (socket.current && !socketEvent) {
-      socket.current.on("msg-receive", async(data) => {
+      socket.current.on("msg-receive", async (data) => {
         console.log("emit received", data);
         // const res = await axios.post(TRANSLATE_TEXT_ROUTE,{
         //   targetLang: userLanguage,
@@ -112,6 +124,7 @@ function Main() {
 
       socket.current.on("online-users", ({ onlineUsers }) => {
         dispatch({ type: reducerCases.SET_ONLINE_USERS, onlineUsers });
+        console.log(onlineUsers);
       });
 
       setSocketEvent(true);
@@ -123,8 +136,12 @@ function Main() {
       <div className="grid grid-cols-main h-screen w-screen max-h-screen max-w-full overflow-hidden">
         <ChatList />
         {currentChatUser ? (
-          <div className={messagesSearch ? "grid grid-cols-2" : ""}>
-            <Chat />
+          <div
+            className={`${
+              currentChatUser !== null ? "sm:w-full w-screen" : ""
+            }  ${messagesSearch ? "grid grid-cols-2" : ""}`}
+          >
+            <Chat loading={loading} />
             {messagesSearch && <SearchMessages />}
           </div>
         ) : (

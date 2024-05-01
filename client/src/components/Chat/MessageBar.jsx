@@ -8,20 +8,19 @@ import React, { useEffect, useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
 import { ImAttachment, ImCalendar } from "react-icons/im";
-import { RiTimerLine } from "react-icons/ri";
-import { MdSend, MdTimer } from "react-icons/md";
+import { MdSend } from "react-icons/md";
 import axios from "axios";
 import { reducerCases } from "@/context/constants";
 import EmojiPicker from "emoji-picker-react";
 import PhotoPicker from "../common/PhotoPicker";
 import dynamic from "next/dynamic";
-import Calender from "./Calender";
+import ScheduleModal from "./ScheduleModal";
 const CaptureAudio = dynamic(() => import("../common/CaptureAudio"), {
   ssr: false,
 });
 
 function MessageBar() {
-  const [{ userInfo, currentChatUser, socket, messages,userLanguage }, dispatch] =
+  const [{ userInfo, currentChatUser, socket, userLanguage }, dispatch] =
     useStateProvider();
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -54,9 +53,6 @@ function MessageBar() {
       console.log("error in messageBar/handleSendMessage: ", error);
     }
   };
-
-
-
 
   const handleEmojiModal = () => {
     setShowEmojiPicker(!showEmojiPicker);
@@ -142,7 +138,7 @@ function MessageBar() {
             {showEmojiPicker && (
               <div
                 ref={emojiPickerRef}
-                className="absolute bottom-24 left-16 z-40"
+                className="absolute bottom-24 sm:left-10 z-40"
               >
                 <EmojiPicker
                   onEmojiClick={handleEmojiClick}
@@ -163,9 +159,9 @@ function MessageBar() {
               title="Schedule Date & Time"
               onClick={() => setGrabDateTime(!grabDateTime)}
             />
-            {
-              grabDateTime && <Calender setGrabDateTime={setGrabDateTime}/>
-            }
+            {grabDateTime && (
+              <ScheduleModal setGrabDateTime={setGrabDateTime} />
+            )}
           </div>
 
           <div className="w-full rounded-lg h-10 flex items-center">

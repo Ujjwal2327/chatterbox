@@ -12,7 +12,7 @@ export const initialState = {
   onlineUsers: [],
   filteredContacts: [],
   contactSearch: "",
-  userLanguage: 'null',
+  // userLanguage: 'null',
   languageSelector: false,
 };
 
@@ -38,8 +38,8 @@ const reducer = (state, action) => {
       return { ...state, userContacts: action.userContacts };
     case reducerCases.SET_ONLINE_USERS:
       return { ...state, onlineUsers: action.onlineUsers };
-    case reducerCases.SET_USER_LANGUAGE:
-      return { ...state, userLanguage: action.userLanguage };
+    // case reducerCases.SET_USER_LANGUAGE:
+    //   return { ...state, userLanguage: action.userLanguage };
     case reducerCases.SET_LANGUAGE_SELECTOR:
       return { ...state, languageSelector: action.languageSelector };
     case reducerCases.SET_CONTACT_SEARCH: {

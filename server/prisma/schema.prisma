@@ -18,6 +18,7 @@ model User {
   about            String    @default("")
   sentMessages     Message[] @relation("sentMessages")
   receivedMessages Message[] @relation("receivedMessages")
+  language         String    @default("null")
 }
 
 model Message {

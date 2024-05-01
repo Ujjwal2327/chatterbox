@@ -3,7 +3,7 @@ import { SCHEDULE_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
 import axios from "axios";
 import React, { useState } from "react";
 
-const Calender = ({ setGrabDateTime }) => {
+const ScheduleModal = ({ setGrabDateTime }) => {
   const [message, setMessage] = useState("");
   const [scheduleDateTime, setScheduleDateTime] = useState(null);
   const [{ userInfo, currentChatUser }] = useStateProvider();
@@ -35,10 +35,10 @@ const Calender = ({ setGrabDateTime }) => {
   };
 
   return (
-    <div className="absolute p-2 bg-slate-400 bottom-20 min-w-[500px] h-[300px] z-50 flex flex-col items-center rounded-lg gap-5">
+    <div className="absolute p-2 bg-slate-400 left-1/2 -translate-x-1/2 bottom-20 h-[300px] z-50 flex flex-col items-center rounded-lg gap-5">
       <input
         type="datetime-local"
-        className="h-10 p-2 rounded-md"
+        className="h-10 p-2 rounded-md mx-10"
         value={scheduleDateTime}
         onChange={(e) => setScheduleDateTime(e.target.value)}
       />
@@ -67,4 +67,4 @@ const Calender = ({ setGrabDateTime }) => {
   );
 };
 
-export default Calender;
+export default ScheduleModal;

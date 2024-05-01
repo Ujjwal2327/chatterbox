@@ -20,7 +20,7 @@ function login() {
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     const { user } = await signInWithPopup(firebaseAuth, provider);
-    const { displayName: name, email, photoURL: profileImage } = user;
+    const { displayName: name, email, photoURL: profileImage, language } = user;
 
     try {
       const { data } = await axios.post(CHECK_USER_ROUTE, { email });
@@ -31,7 +31,7 @@ function login() {
         });
         dispatch({
           type: reducerCases.SET_USER_INFO,
-          userInfo: { name, email, profileImage, status: "" },
+          userInfo: { name, email, profileImage, status: "", language },
         });
         router.push("/onboarding");
       } else {
@@ -50,6 +50,7 @@ function login() {
             email,
             profileImage,
             status,
+            language
           },
         });
         router.push("/");

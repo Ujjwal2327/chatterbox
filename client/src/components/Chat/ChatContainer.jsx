@@ -10,13 +10,12 @@ const VoiceMessage = dynamic(() => import("./VoiceMessage"), {
   ssr: false,
 });
 
-function ChatContainer() {
+function ChatContainer({loading}) {
   const [{ userInfo, currentChatUser, messages }] = useStateProvider();
 
   // Scroll to bottom of chat container
   const chatContainerRef = useRef(null);
   useEffect(() => {
-    console.log(messages);
     setTimeout(() => {
       if (chatContainerRef.current) {
         chatContainerRef.current.scrollTop =
@@ -61,8 +60,14 @@ function ChatContainer() {
       className="h-[80vh] w-full relative flex-grow overflow-auto custom-scrollbar"
     >
       <div className=" bg-fixed h-full w-full absolute left-0 top-0 bg-opacity-5">
-        <div className="mx-10 my-6 relative bottom-0 z-40 left-0">
-          <div className="flex w-full">
+        <div className="sm:mx-10 mx-2 my-6 relative bottom-0 z-40 left-0">
+          <div className="flex w-full justify-center items-center">
+            {
+              loading ? 
+              <div className="h-screen flex w-full justify-center items-center">
+                <span className="loader"></span>
+              </div> :
+            
             <div className="flex flex-col justify-end w-full gap-1 overflow-auto">
               {messages.map((message, index) => (
                 <div
@@ -85,7 +90,7 @@ function ChatContainer() {
                           {calculateTime(message.createdAt)}
                         </span>
                         <span>
-                          {message.senderId === userInfo.id && (
+                          {message.senderId === userInfo?.id && (
                             <MessageStatus
                               messageStatus={message.messageStatus}
                             />
@@ -104,7 +109,7 @@ function ChatContainer() {
                   )}
                 </div>
               ))}
-            </div>
+            </div>}
           </div>
         </div>
       </div>

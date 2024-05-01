@@ -87,42 +87,44 @@ function VoiceMessage({ message }) {
 
   return (
     <div
-      className={`flex items-center gap-5 text-white text-sm rounded-md px-4 pr-2 py-4 ${
+      className={`flex justify-between items-center gap-5 text-white text-sm w-[250px] rounded-md px-4 pr-2 py-4 ${
         message.senderId === currentChatUser.id
           ? "bg-incoming-background"
           : "bg-outgoing-background"
       }`}
     >
-      <div>
-        <Avatar
-          type="lg"
-          image={
-            message.senderId === currentChatUser.id
-              ? currentChatUser.profilePicture
-              : userInfo.profileImage
-          }
-        />
-      </div>
-      <div className="cursor-pointer text-xl">
-        {!isPlaying ? (
-          <FaPlay onClick={handlePlayAudio} />
-        ) : (
-          <FaPause onClick={handlePauseAudio} />
-        )}
+      <div className="flex gap-4 items-center">
+        <div>
+          <Avatar
+            type="sm"
+            image={
+              message.senderId === currentChatUser.id
+                ? currentChatUser.profilePicture
+                : userInfo.profileImage
+            }
+          />
+        </div>
+        <div className="cursor-pointer text-xl">
+          {!isPlaying ? (
+            <FaPlay onClick={handlePlayAudio} />
+          ) : (
+            <FaPause onClick={handlePauseAudio} />
+          )}
+        </div>
       </div>
       <div className="relative">
-        <div className="w-60" ref={waveformRef} />
-        <div className="text-bubble-meta text-[11px] pt-1 flex justify-between absolute bottom-[-22px] w-full">
+        <div className="" ref={waveformRef} />
+        <div className="text-bubble-meta text-[11px] pt-1 flex justify-between absolute bottom-[-22px]">
           <span>
-            {formatTime(isPlaying ? currentPlaybackTime : totalDuration)}
+            {/* {formatTime(isPlaying ? currentPlaybackTime : totalDuration)} */}
           </span>
-          <div className="flex gap-1">
-            <span>{calculateTime(message.createdAt)}</span>
-            {message.senderId === userInfo.id && (
-              <MessageStatus messageStatus={message.messageStatus} />
-            )}
-          </div>
         </div>
+      </div>
+      <div className="flex gap-1 text-bubble-meta text-[11px]">
+        <span>{calculateTime(message.createdAt)}</span>
+        {message.senderId === userInfo.id && (
+          <MessageStatus messageStatus={message.messageStatus} />
+        )}
       </div>
     </div>
   );

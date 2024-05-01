@@ -7,7 +7,8 @@ import { useStateProvider } from "@/context/StateContext";
 import ContactsList from "./ContactsList";
 
 function ChatList() {
-  const [{ contactsPage,languageSelector }] = useStateProvider();
+  const [{ contactsPage,languageSelector,currentChatUser }] = useStateProvider();
+
   const [pageType, setPageType] = useState("default");
 
   useEffect(() => {
@@ -16,7 +17,7 @@ function ChatList() {
   }, [contactsPage]);
 
   return (
-    <div className="bg-panel-header-background flex flex-col max-h-screen z-20">
+    <div className={`bg-panel-header-background ${currentChatUser===null ? "flex w-screen sm:w-full" : "hidden"} sm:flex flex-col max-h-screen z-20`}>
       {pageType === "default" && (
         <>
           <ChatListHeader />
