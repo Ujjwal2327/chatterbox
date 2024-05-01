@@ -1,4 +1,4 @@
-export const HOST = "https://chatterbox-7n4n.onrender.com:10000";
+export const HOST = "https://chatterbox-7n4n.onrender.com";
 
 const AUTH_ROUTE = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
