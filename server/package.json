@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon index.js",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate && prisma db push"
   },
   "dependencies": {
     "@aws-sdk/client-translate": "^3.564.0",
