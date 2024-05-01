@@ -59,3 +59,7 @@ export const getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
+
+export const test = (req, res, next) => {
+  return res.json({ success: true });
+};
