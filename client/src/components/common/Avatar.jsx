@@ -35,7 +35,7 @@ function Avatar({ type, image, setImage }) {
       },
     },
     {
-      name: "Choose From Library",
+      name: "Choose From Avatars",
       callback: () => {
         setShowPhotoLibrary(true);
       },

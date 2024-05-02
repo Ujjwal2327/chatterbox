@@ -25,7 +25,7 @@ function PhotoLibrary({ setImage, setShowPhotoLibrary }) {
           <IoClose className="h-10 w-10" />
         </div>
 
-        <div className="grid grid-cols-3 justify-center items-center gap-16 p-20 w-full">
+        <div className="grid grid-cols-3 justify-center items-center gap-5 sm:gap-16 p-5 sm:p-20 w-full">
           {images.map((image) => (
             <div
               onClick={() => {
@@ -34,7 +34,7 @@ function PhotoLibrary({ setImage, setShowPhotoLibrary }) {
               }}
               key={image}
             >
-              <div className="h-24 w-24 cursor-pointer relative">
+              <div className="h-20 w-20 sm:h-24 sm:w-24 cursor-pointer relative">
                 <Image src={image} alt="avatar" fill sizes="24" />
               </div>
             </div>

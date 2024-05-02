@@ -67,17 +67,17 @@ function onboarding() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white h-screen w-screen">
+    <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white w-screen min-h-screen pb-10">
       <div className="flex items-center justify-center gap-2">
         <Image src="/logo.png" alt="logo" width={300} height={300} />
-        <span className="text-7xl">Sandesha</span>
+        <span className="text-7xl hidden sm:block">Sandesha</span>
       </div>
       <h2 className="text-2xl">Create your profile</h2>
-      <div className="flex gap-6 mt-6">
+      <div className="flex gap-6 mt-6 flex-col-reverse sm:flex-row">
         <div className="flex flex-col justify-center items-center mt-5">
           <Input name="name" state={name} setState={setName} label />
           <Input name="about" state={about} setState={setAbout} label />
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center mt-5">
             <button
               className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg"
               onClick={handleOnboardingUser}

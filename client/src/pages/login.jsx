@@ -66,17 +66,17 @@ function login() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white h-screen w-screen">
+    <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white min-h-screen w-screen">
       <div className="flex items-center justify-center gap-2">
         <Image src="/logo.png" alt="logo" width={300} height={300} />
-        <span className="text-7xl">Sandesha</span>
+        <span className="text-7xl hidden sm:block">Sandesha</span>
       </div>
       <button
         className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg"
         onClick={handleLogin}
       >
         <FcGoogle className="text-4xl" />
-        <span className="text-white text-2xl">Login with Google</span>
+        <span className="text-white sm:text-2xl">Login with Google</span>
       </button>
     </div>
   );
