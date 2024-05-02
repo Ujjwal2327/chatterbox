@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }) {
   return (
     <StateProvider initialState={initialState} reducer={reducer}>
       <Head>
-        <title>Chatterbox</title>
+        <title>Sandesha</title>
         <link rel="shortcut icon" href="/favicon.png" />
       </Head>
       <Component {...pageProps} />

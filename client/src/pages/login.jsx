@@ -63,8 +63,8 @@ function login() {
   return (
     <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white h-screen w-screen">
       <div className="flex items-center justify-center gap-2">
-        <Image src="/logo.gif" alt="logo" width={300} height={300} />
-        <span className="text-7xl">Chatterbox</span>
+        <Image src="/logo.png" alt="logo" width={300} height={300} />
+        <span className="text-7xl">Sandesha</span>
       </div>
       <button
         className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg"
