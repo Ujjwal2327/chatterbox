@@ -232,6 +232,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
 export const scheduleMessage = async (req, res, next) => {
   const { scheduledTime } = req.body;
   try {
+    console.log("schedule msg backend")
     const task = cron.schedule(
       scheduledTime,
       async function () {
@@ -249,13 +250,16 @@ export const scheduleMessage = async (req, res, next) => {
               },
               // select: { sender: true, receiver: true },
             });
+            console.log("schedule msg backend done")
             return res.status(201).send({ message: newMessage });
           }
+          console.log("error in schedule msg backend")
           return res
-            .status(400)
-            .send("Invalid message, sender or receiver data");
+          .status(400)
+          .send("Invalid message, sender or receiver data");
         } catch (error) {
           next(error);
+          console.log("error in schedule msg backend 2")
         }
       },
       {

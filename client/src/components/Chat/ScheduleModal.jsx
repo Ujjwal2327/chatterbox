@@ -5,7 +5,7 @@ import React, { useState } from "react";
 
 const ScheduleModal = ({ setGrabDateTime }) => {
   const [message, setMessage] = useState("");
-  const [scheduleDateTime, setScheduleDateTime] = useState(null);
+  const [scheduleDateTime, setScheduleDateTime] = useState(Date.now());
   const [{ userInfo, currentChatUser }] = useStateProvider();
 
   const convertTimeToCron = (dateTimeString) => {
@@ -19,6 +19,7 @@ const ScheduleModal = ({ setGrabDateTime }) => {
 
   const handleScheduleMessage = async () => {
     if (!message.trim()) return;
+    console.log("schedule msg frontend")
     try {
       axios.post(SCHEDULE_MESSAGE_ROUTE, {
         message: message.trim(),
