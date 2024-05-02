@@ -152,15 +152,15 @@ function CaptureAudio({ setShowAudioRecorder }) {
           "Content-Type": "multipart/form-data",
         },
         params: {
-          from: userInfo.id,
-          to: currentChatUser.id,
+          from: userInfo?.id,
+          to: currentChatUser?.id,
         },
       });
       if (res.status === 201) {
         socket.emit("send-msg", {
           message: res.data.message,
-          from: userInfo.id,
-          to: currentChatUser.id,
+          from: userInfo?.id,
+          to: currentChatUser?.id,
         });
         dispatch({
           type: reducerCases.ADD_MESSAGE,

@@ -10,7 +10,7 @@ function ImageMessage({ message }) {
   return (
     <div
       className={`p-1 rounded-lg ${
-        message.senderId === currentChatUser.id
+        message.senderId === currentChatUser?.id
           ? "bg-incoming-background"
           : "bg-outgoing-background"
       }`}
@@ -28,7 +28,7 @@ function ImageMessage({ message }) {
             {calculateTime(message.createdAt)}
           </span>
           <span className="text-bubble-meta">
-            {message.senderId === userInfo.id && (
+            {message.senderId === userInfo?.id && (
               <MessageStatus messageStatus={message.messageStatus} />
             )}
           </span>

@@ -42,13 +42,13 @@ export const getMessages = async (req, res, next) => {
 
     const messages = await prisma.message.findMany({
       where: {
-      OR: [
+        OR: [
           { senderId: parseInt(from), receiverId: parseInt(to) },
           { senderId: parseInt(to), receiverId: parseInt(from) },
         ],
       },
       orderBy: { createdAt: "desc" },
-      take: 7,
+      // take: 20,
       // skip: skipTimes * 5,
     });
     messages.reverse();
@@ -71,7 +71,7 @@ export const getMessages = async (req, res, next) => {
 
     for (const message of messages) {
       try {
-        if(message.senderId!== +from && userLanguage != "null"){  
+        if (message.senderId !== +from && userLanguage != "null") {
           const data = { targetLang: userLanguage, text: message.message };
           message.message = await translate(data);
         }
@@ -232,7 +232,7 @@ export const getInitialContactsWithMessages = async (req, res, next) => {
 export const scheduleMessage = async (req, res, next) => {
   const { scheduledTime } = req.body;
   try {
-    console.log("schedule msg backend")
+    console.log("schedule msg backend");
     const task = cron.schedule(
       scheduledTime,
       async function () {
@@ -250,16 +250,16 @@ export const scheduleMessage = async (req, res, next) => {
               },
               // select: { sender: true, receiver: true },
             });
-            console.log("schedule msg backend done")
+            console.log("schedule msg backend done");
             return res.status(201).send({ message: newMessage });
           }
-          console.log("error in schedule msg backend")
+          console.log("error in schedule msg backend");
           return res
-          .status(400)
-          .send("Invalid message, sender or receiver data");
+            .status(400)
+            .send("Invalid message, sender or receiver data");
         } catch (error) {
           next(error);
-          console.log("error in schedule msg backend 2")
+          console.log("error in schedule msg backend 2");
         }
       },
       {

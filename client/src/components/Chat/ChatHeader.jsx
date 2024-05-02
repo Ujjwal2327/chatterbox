@@ -16,7 +16,7 @@ function ChatHeader() {
         <div className="flex flex-col">
           <span className="text-primary-strong">{currentChatUser.name}</span>
           <span className="text-secondary text-sm">
-            {onlineUsers.includes(currentChatUser.id) ? "online" : "offline"}
+            {onlineUsers.includes(currentChatUser?.id) ? "online" : "offline"}
           </span>
         </div>
       </div>

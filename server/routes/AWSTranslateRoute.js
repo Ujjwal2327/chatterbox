@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   translateFront,
-  updateLanguage
+  updateLanguage,
 } from "../controllers/AWSTranslateController.js";
 
 const router = Router();

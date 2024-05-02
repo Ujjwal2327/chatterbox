@@ -19,10 +19,15 @@ function login() {
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
-    
+
     try {
       const { user } = await signInWithPopup(firebaseAuth, provider);
-      const { displayName: name, email, photoURL: profileImage, language } = user;
+      const {
+        displayName: name,
+        email,
+        photoURL: profileImage,
+        language,
+      } = user;
       const { data } = await axios.post(CHECK_USER_ROUTE, { email });
       if (!data.status) {
         dispatch({
@@ -50,7 +55,7 @@ function login() {
             email,
             profileImage,
             status,
-            language
+            language,
           },
         });
         router.push("/");

@@ -13,7 +13,7 @@ function List() {
     const getContacts = async () => {
       try {
         const { data } = await axios.get(
-          `${GET_INITIAL_CONTACTS_ROUTE}/${userInfo.id}`
+          `${GET_INITIAL_CONTACTS_ROUTE}/${userInfo?.id}`
         );
         const { contacts, onlineUsers } = data;
         dispatch({ type: reducerCases.SET_ONLINE_USERS, onlineUsers });

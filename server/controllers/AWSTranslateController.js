@@ -1,4 +1,7 @@
-import { TranslateClient, TranslateTextCommand } from "@aws-sdk/client-translate"; // ES Modules import
+import {
+  TranslateClient,
+  TranslateTextCommand,
+} from "@aws-sdk/client-translate"; // ES Modules import
 import getPrismaInstance from "../utils/PrismaClient.js";
 // const { TranslateClient, TranslateTextCommand } = require("@aws-sdk/client-translate"); // CommonJS import
 const config = {

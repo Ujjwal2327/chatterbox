@@ -15,14 +15,17 @@ export const calculateTime = (inputDateStr, options = {}) => {
     return "Just now";
   } else if (timeDifference < 3600) {
     const minutes = Math.floor(timeDifference / 60);
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
   } else if (timeDifference < 86400) {
     const hours = Math.floor(timeDifference / 3600);
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   }
 
   // Set up date formats
-  const timeOptions = timeFormat === "12-hour" ? { hour: "numeric", minute: "numeric", hour12: true } : { hour: "numeric", minute: "numeric" };
+  const timeOptions =
+    timeFormat === "12-hour"
+      ? { hour: "numeric", minute: "numeric", hour12: true }
+      : { hour: "numeric", minute: "numeric" };
   const dateFormat = { day: "2-digit", month: "2-digit", year: "numeric" };
 
   // Localization
@@ -37,7 +40,7 @@ export const calculateTime = (inputDateStr, options = {}) => {
   ) {
     return inputDate.toLocaleTimeString(locale, timeLocale);
   }
-  
+
   // Yesterday
   const yesterday = new Date(currentDate);
   yesterday.setDate(currentDate.getDate() - 1);
@@ -50,8 +53,17 @@ export const calculateTime = (inputDateStr, options = {}) => {
   }
 
   // More than 1 day ago
-  if (timeDifference >= 86400 && timeDifference <= 604800) { // Within a week
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  if (timeDifference >= 86400 && timeDifference <= 604800) {
+    // Within a week
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
     return daysOfWeek[inputDate.getDay()];
   }
 

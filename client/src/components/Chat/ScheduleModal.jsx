@@ -19,7 +19,7 @@ const ScheduleModal = ({ setGrabDateTime }) => {
 
   const handleScheduleMessage = async () => {
     if (!message.trim()) return;
-    console.log("schedule msg frontend")
+    console.log("schedule msg frontend");
     try {
       axios.post(SCHEDULE_MESSAGE_ROUTE, {
         message: message.trim(),

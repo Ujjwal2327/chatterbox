@@ -10,7 +10,7 @@ const VoiceMessage = dynamic(() => import("./VoiceMessage"), {
   ssr: false,
 });
 
-function ChatContainer({loading}) {
+function ChatContainer({ loading }) {
   const [{ userInfo, currentChatUser, messages }] = useStateProvider();
 
   // Scroll to bottom of chat container
@@ -27,7 +27,7 @@ function ChatContainer({loading}) {
   //Text Translation with Amazon Translate api.
   // useEffect(async () => {
   //   const translateMessages = async () => {
-  //     // messages.forEach(async(message) => { 
+  //     // messages.forEach(async(message) => {
 
   //     //   const data = {targetLang: 'hi', text: message.message}
   //     //   const res = await axios.post(TRANSLATE_TEXT_ROUTE,data);
@@ -51,7 +51,6 @@ function ChatContainer({loading}) {
 
   //   await translateMessages();
 
-
   // }, [messages])
 
   return (
@@ -62,54 +61,56 @@ function ChatContainer({loading}) {
       <div className=" bg-fixed h-full w-full absolute left-0 top-0 bg-opacity-5">
         <div className="sm:mx-10 mx-2 my-6 relative bottom-0 z-40 left-0">
           <div className="flex w-full justify-center items-center">
-            {
-              loading ? 
-              <div className="h-screen flex w-full justify-center items-center">
+            {loading ? (
+              <div className="h-[70vh] flex w-full justify-center items-center">
                 <span className="loader"></span>
-              </div> :
-            
-            <div className="flex flex-col justify-end w-full gap-1 overflow-auto">
-              {messages.map((message, index) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.senderId === currentChatUser.id
-                    ? "justify-start"
-                    : "justify-end"
+              </div>
+            ) : (
+              <div className="flex flex-col justify-end w-full gap-1 overflow-auto">
+                {messages.map((message, index) => (
+                  <div
+                    key={message.id}
+                    className={`flex ${
+                      message.senderId === currentChatUser?.id
+                        ? "justify-start"
+                        : "justify-end"
                     }`}
-                >
-                  {message.type === "text" && (
-                    <div
-                      className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${message.senderId === currentChatUser.id
-                        ? "bg-incoming-background"
-                        : "bg-outgoing-background"
+                  >
+                    {message.type === "text" && (
+                      <div
+                        className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${
+                          message.senderId === currentChatUser?.id
+                            ? "bg-incoming-background"
+                            : "bg-outgoing-background"
                         }`}
-                    >
-                      <span className="break-all">{message.message}</span>
-                      <div className="flex gap-1 items-end">
-                        <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
-                          {calculateTime(message.createdAt)}
-                        </span>
-                        <span>
-                          {message.senderId === userInfo?.id && (
-                            <MessageStatus
-                              messageStatus={message.messageStatus}
-                            />
-                          )}
-                        </span>
+                      >
+                        <span className="break-all">{message.message}</span>
+                        <div className="flex gap-1 items-end">
+                          <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
+                            {calculateTime(message.createdAt)}
+                          </span>
+                          <span>
+                            {message.senderId === userInfo?.id && (
+                              <MessageStatus
+                                messageStatus={message.messageStatus}
+                              />
+                            )}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {message.type === "image" && (
-                    <ImageMessage message={message} />
-                  )}
+                    {message.type === "image" && (
+                      <ImageMessage message={message} />
+                    )}
 
-                  {message.type === "audio" && (
-                    <VoiceMessage message={message} />
-                  )}
-                </div>
-              ))}
-            </div>}
+                    {message.type === "audio" && (
+                      <VoiceMessage message={message} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

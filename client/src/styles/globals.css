@@ -12,12 +12,13 @@
   border-radius: 2px;
   scroll-behavior: smooth;
 }
+
 .epr-body {
   @apply custom-scrollbar;
 }
 
 
-#language-picker{
+#language-picker {
   @apply bg-panel-header-background text-white text-center w-full
 }
 
@@ -28,9 +29,10 @@
   display: inline-block;
   position: relative;
 }
+
 .loader::after,
 .loader::before {
-  content: '';  
+  content: '';
   box-sizing: border-box;
   width: 48px;
   height: 48px;
@@ -41,6 +43,7 @@
   top: 0;
   animation: animloader 2s linear infinite;
 }
+
 .loader::after {
   animation-delay: 1s;
 }
@@ -50,6 +53,7 @@
     transform: scale(0);
     opacity: 1;
   }
+
   100% {
     transform: scale(1);
     opacity: 0;

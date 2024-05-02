@@ -12,7 +12,6 @@ export const initialState = {
   onlineUsers: [],
   filteredContacts: [],
   contactSearch: "",
-  // userLanguage: 'null',
   languageSelector: false,
 };
 

@@ -3,11 +3,11 @@ import ChatHeader from "./ChatHeader";
 import ChatContainer from "./ChatContainer";
 import MessageBar from "./MessageBar";
 
-function Chat({loading}) {
+function Chat({ loading }) {
   return (
     <div className="border-conversation-border border-l w-full bg-conversation-panel-background flex flex-col h-screen z-10">
       <ChatHeader />
-      <ChatContainer loading={loading}/>
+      <ChatContainer loading={loading} />
       <MessageBar />
     </div>
   );

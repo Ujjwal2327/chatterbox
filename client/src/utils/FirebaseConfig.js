@@ -8,8 +8,8 @@ const firebaseConfig = {
   storageBucket: "chatterbox-6f827.appspot.com",
   messagingSenderId: "639647612374",
   appId: "1:639647612374:web:0ba928499abd00bbc9b877",
-  measurementId: "G-DJ7M271HKC"
+  measurementId: "G-DJ7M271HKC",
 };
 
 const app = initializeApp(firebaseConfig);
-export const firebaseAuth = getAuth(app)
+export const firebaseAuth = getAuth(app);

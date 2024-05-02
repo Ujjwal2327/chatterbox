@@ -20,5 +20,4 @@ router.post("/add-audio-message", uploadAudio.single("audio"), addAudioMessage);
 router.get("/get-initial-contacts/:from", getInitialContactsWithMessages);
 router.post("/schedule-message", scheduleMessage);
 
-
 export default router;

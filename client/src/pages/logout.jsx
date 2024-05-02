@@ -11,7 +11,7 @@ function logout() {
 
   useEffect(() => {
     if (userInfo) {
-      socket.emit("signout", userInfo.id);
+      socket.emit("signout", userInfo?.id);
       dispatch({ type: reducerCases.SET_USER_INFO, userInfo: null });
       signOut(firebaseAuth);
       router.push("/login");
