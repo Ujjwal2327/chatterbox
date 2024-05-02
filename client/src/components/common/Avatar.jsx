@@ -106,7 +106,7 @@ function Avatar({ type, image, setImage }) {
         )}
         {type === "xl" && (
           <div className="relative cursor-pointer z-0 group">
-            <div className="h-60 w-60 relative">
+            <div className="h-60 w-60 max-w-full relative">
               <Image
                 src={image || "/default_avatar.png"}
                 alt="avatar"

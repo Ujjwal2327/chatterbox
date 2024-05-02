@@ -16,8 +16,8 @@ function onboarding() {
   const [image, setImage] = useState(userInfo?.profileImage);
 
   useEffect(() => {
-    if (!newUser && !userInfo?.email) router.push("/login");
-    else if (!newUser && userInfo?.id) router.push("/");
+    // if (!newUser && !userInfo?.email) router.push("/login");
+    // else if (!newUser && userInfo?.id) router.push("/");
   }, [newUser, userInfo]);
 
   const validateDetails = () => {
@@ -75,8 +75,8 @@ function onboarding() {
       <h2 className="text-2xl">Create your profile</h2>
       <div className="flex gap-6 mt-6 flex-col-reverse sm:flex-row">
         <div className="flex flex-col justify-center items-center mt-5">
-          <Input name="name" state={name} setState={setName} label />
-          <Input name="about" state={about} setState={setAbout} label />
+          <Input name="name" state={name} setState={setName} label className="max-w-full" />
+          <Input name="about" state={about} setState={setAbout} label className="max-w-full" />
           <div className="flex items-center justify-center mt-5">
             <button
               className="flex items-center justify-center gap-7 bg-search-input-container-background p-5 rounded-lg"

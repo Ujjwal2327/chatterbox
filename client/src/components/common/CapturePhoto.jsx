@@ -26,7 +26,7 @@ function CapturePhoto({ setImage, setShowCapturePhoto }) {
   }, []);
 
   return (
-    <div className="absolute h-4/6 w-2/6 top-1/4 left-1/3 bg-gray-900 gap-3 rounded-lg pt-2 flex items-center justify-center">
+    <div className="absolute lg:h-4/6 w-4/6 lg:w-2/6 top-1/4 left-1/3 -translate-x-1/4 lg:translate-x-0 lg:left-1/3 bg-gray-900 gap-3 rounded-lg pt-2 flex items-center justify-center">
       <div className="flex items-center justify-center flex-col gap-4 w-full">
         <div
           className="pt-2 pr-2 cursor-pointer flex items-end justify-end"
