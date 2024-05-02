@@ -48,7 +48,7 @@ export const getMessages = async (req, res, next) => {
         ],
       },
       orderBy: { createdAt: "desc" },
-      take: 5,
+      take: 7,
       // skip: skipTimes * 5,
     });
     messages.reverse();

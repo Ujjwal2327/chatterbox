@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
     <StateProvider initialState={initialState} reducer={reducer}>
       <Head>
         <title>Sandesha</title>
-        <link rel="shortcut icon" href="/favicon.png" />
+        <link rel="shortcut icon" href="/logo.png" />
       </Head>
       <Component {...pageProps} />
     </StateProvider>
