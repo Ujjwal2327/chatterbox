@@ -1,8 +1,7 @@
-import { on } from "events";
 import getPrismaInstance from "../utils/PrismaClient.js";
 import { renameSync } from "fs";
 import { translate } from "./AWSTranslateController.js";
-import cron from "node-cron";
+import schedule from "node-schedule";
 
 export const addMessage = async (req, res, next) => {
   try {
@@ -233,7 +232,13 @@ export const scheduleMessage = async (req, res, next) => {
   const { scheduledTime } = req.body;
   try {
     console.log("schedule msg backend");
-    const task = cron.schedule(
+    const referenceTime = new Date(scheduledTime);
+    if(Date.now()>=referenceTime){
+      console.log("done");
+      throw new Error("past date");
+      return;
+    } 
+    const job = schedule.scheduleJob(
       scheduledTime,
       async function () {
         try {
@@ -261,12 +266,8 @@ export const scheduleMessage = async (req, res, next) => {
           next(error);
           console.log("error in schedule msg backend 2");
         }
-      },
-      {
-        scheduled: true,
       }
     );
-    task.start();
   } catch (error) {
     next(error);
   }

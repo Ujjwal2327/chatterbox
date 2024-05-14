@@ -8,15 +8,6 @@ const ScheduleModal = ({ setGrabDateTime }) => {
   const [scheduleDateTime, setScheduleDateTime] = useState(Date.now());
   const [{ userInfo, currentChatUser }] = useStateProvider();
 
-  const convertTimeToCron = (dateTimeString) => {
-    const date = new Date(dateTimeString);
-    const minute = date.getMinutes();
-    const hour = date.getHours();
-    const dayOfMonth = date.getDate();
-    const month = date.getMonth();
-    return `${minute} ${hour} ${dayOfMonth} ${month + 1} *`; // Add 1 to month for correct indexing
-  };
-
   const handleScheduleMessage = async () => {
     if (!message.trim()) return;
     console.log("schedule msg frontend");
@@ -25,7 +16,7 @@ const ScheduleModal = ({ setGrabDateTime }) => {
         message: message.trim(),
         from: userInfo?.id,
         to: currentChatUser?.id,
-        scheduledTime: convertTimeToCron(scheduleDateTime),
+        scheduledTime: scheduleDateTime,
       });
       setMessage("");
       setScheduleDateTime(null);
