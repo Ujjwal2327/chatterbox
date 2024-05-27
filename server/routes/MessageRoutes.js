@@ -6,6 +6,7 @@ import {
   getInitialContactsWithMessages,
   getMessages,
   scheduleMessage,
+  deleteMsg
 } from "../controllers/MessageController.js";
 import multer from "multer";
 
@@ -13,6 +14,7 @@ const uploadImage = multer({ dest: "uploads/images" });
 const uploadAudio = multer({ dest: "uploads/recordings" });
 
 const router = Router();
+router.post("/delete/:messageId",deleteMsg);
 router.post("/add-message", addMessage);
 router.get("/get-messages/:from/:to/:userLanguage", getMessages);
 router.post("/add-image-message", uploadImage.single("image"), addImageMessage);

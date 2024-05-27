@@ -1,8 +1,8 @@
 import { reducerCases } from "@/context/constants";
 import { useStateProvider } from "@/context/StateContext";
-import React, { useState } from "react";
+import React from "react";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { BsFilter } from "react-icons/bs";
+import { IoLanguage } from "react-icons/io5";
 
 function SearchBar() {
   const [{ contactSearch, languageSelector }, dispatch] = useStateProvider();
@@ -42,9 +42,10 @@ function SearchBar() {
       </div>
 
       <div className="pr-5 pl-3">
-        <BsFilter
+        <IoLanguage
           className="text-panel-header-icon cursor-pointer text-xl"
           onClick={() => handleClick()}
+          title="Translated Language"
         />
       </div>
     </div>

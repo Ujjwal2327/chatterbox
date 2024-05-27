@@ -30,7 +30,7 @@ function List() {
   }, [userInfo, dispatch, messages]);
 
   return (
-    <div className="bg-search-input-container-background flex-auto overflow-scrollT max-h-full custom-scrollbar">
+    <div className="bg-search-input-container-background flex-auto overflow-auto max-h-full custom-scrollbar">
       {filteredContacts && filteredContacts.length > 0
         ? filteredContacts.map((contact) => (
             <ChatLIstItem

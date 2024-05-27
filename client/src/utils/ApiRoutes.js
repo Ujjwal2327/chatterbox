@@ -1,4 +1,5 @@
-export const HOST = "https://chatterbox-7n4n.onrender.com";
+// export const HOST = "https://chatterbox-7n4n.onrender.com";
+export const HOST = "http://localhost:3005";
 
 const AUTH_ROUTE = `${HOST}/api/auth`;
 const MESSAGES_ROUTE = `${HOST}/api/messages`;
@@ -12,3 +13,4 @@ export const ADD_AUDIO_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/add-audio-message`;
 export const GET_INITIAL_CONTACTS_ROUTE = `${MESSAGES_ROUTE}/get-initial-contacts`;
 export const TRANSLATE_TEXT_ROUTE = `${HOST}/api/translate`;
 export const SCHEDULE_MESSAGE_ROUTE = `${MESSAGES_ROUTE}/schedule-message`;
+export const DELETE_MSG_ROUTE = `${MESSAGES_ROUTE}/delete`;

@@ -3,18 +3,37 @@ import { calculateTime } from "@/utils/CalculateTime";
 import React, { useEffect, useRef, useState } from "react";
 import MessageStatus from "../common/MessageStatus";
 import ImageMessage from "./ImageMessage";
+import { DELETE_MSG_ROUTE } from "@/utils/ApiRoutes";
+import axios from "axios";
+import { MdDelete } from "react-icons/md";
+import { reducerCases } from "@/context/constants";
 import dynamic from "next/dynamic";
-// import { TRANSLATE_TEXT_ROUTE } from '@/utils/ApiRoutes';
-// import axios from 'axios';
 const VoiceMessage = dynamic(() => import("./VoiceMessage"), {
   ssr: false,
 });
 
 function ChatContainer({ loading }) {
-  const [{ userInfo, currentChatUser, messages }] = useStateProvider();
+  const [{ userInfo, currentChatUser, messages }, dispatch] =
+    useStateProvider();
 
   // Scroll to bottom of chat container
   const chatContainerRef = useRef(null);
+
+  const deleteMsg = async (messageId) => {
+    try {
+      console.log(messages);
+      await axios.post(`${DELETE_MSG_ROUTE}/${messageId}`, {
+        userId: userInfo.id,
+      });
+      const filteredMessages = messages.filter((msg) => {
+        return msg.id != messageId;
+      });
+      dispatch({ type: reducerCases.SET_MESSAGES, messages: filteredMessages });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     setTimeout(() => {
       if (chatContainerRef.current) {
@@ -23,35 +42,6 @@ function ChatContainer({ loading }) {
       }
     }, 1000);
   }, [messages]);
-
-  //Text Translation with Amazon Translate api.
-  // useEffect(async () => {
-  //   const translateMessages = async () => {
-  //     // messages.forEach(async(message) => {
-
-  //     //   const data = {targetLang: 'hi', text: message.message}
-  //     //   const res = await axios.post(TRANSLATE_TEXT_ROUTE,data);
-  //     //   message.message = res.translatedText
-  //     //   console.log(res)
-
-  //     // });
-  //     for (const message of messages) {
-  //       try {
-  //         const data = { targetLang: 'hi', text: message.message }
-  //         const res = await axios.post(TRANSLATE_TEXT_ROUTE, data);
-  //         message.message = res.translatedText
-  //         console.log(res)
-  //       } catch (error) {
-  //         console.log("error in translation")
-  //       }
-  //     }
-
-  //     // return messages;
-  //   }
-
-  //   await translateMessages();
-
-  // }, [messages])
 
   return (
     <div
@@ -70,12 +60,22 @@ function ChatContainer({ loading }) {
                 {messages.map((message, index) => (
                   <div
                     key={message.id}
-                    className={`flex ${
+                    className={`flex group items-center ${
                       message.senderId === currentChatUser?.id
                         ? "justify-start"
                         : "justify-end"
                     }`}
                   >
+                    {message.senderId === currentChatUser?.id && (
+                      <div className="text-white items-center justify-center hidden group-hover:block hover:cursor-pointer">
+                        <MdDelete
+                          onClick={async () => {
+                            await deleteMsg(message.id);
+                          }}
+                        />
+                      </div>
+                    )}
+
                     {message.type === "text" && (
                       <div
                         className={`text-white px-2 py-1.5 text-sm rounded-md flex gap-2 items-end max-w-[45%] flex-wrap ${
@@ -106,6 +106,16 @@ function ChatContainer({ loading }) {
 
                     {message.type === "audio" && (
                       <VoiceMessage message={message} />
+                    )}
+
+                    {message.senderId !== currentChatUser?.id && (
+                      <div className="text-white items-center justify-center hidden group-hover:block hover:cursor-pointer">
+                        <MdDelete
+                          onClick={async () => {
+                            await deleteMsg(message.id);
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 ))}

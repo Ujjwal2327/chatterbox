@@ -1,10 +1,10 @@
 import React from "react";
 import Avatar from "../common/Avatar";
 import { useStateProvider } from "@/context/StateContext";
-import { BsFillChatLeftTextFill, BsThreeDotsVertical } from "react-icons/bs";
 import { reducerCases } from "@/context/constants";
 import { IoExitOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
+import { RiContactsFill } from "react-icons/ri";
 
 function ChatListHeader() {
   const [{ userInfo }, dispatch] = useStateProvider();
@@ -20,7 +20,7 @@ function ChatListHeader() {
         <Avatar type="sm" image={userInfo?.profileImage} />
       </div>
       <div className="flex gap-6">
-        <BsFillChatLeftTextFill
+        <RiContactsFill
           className="text-panel-header-icon cursor-pointer text-xl"
           title="New Chat"
           onClick={handleAllContactsPage}

@@ -7,7 +7,6 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import { FaMicrophone } from "react-icons/fa";
-import { ImAttachment, ImCalendar } from "react-icons/im";
 import { MdSend } from "react-icons/md";
 import axios from "axios";
 import { reducerCases } from "@/context/constants";
@@ -18,6 +17,8 @@ import ScheduleModal from "./ScheduleModal";
 const CaptureAudio = dynamic(() => import("../common/CaptureAudio"), {
   ssr: false,
 });
+import { FaImage } from "react-icons/fa6";
+import { LuCalendarClock } from "react-icons/lu";
 
 function MessageBar() {
   const [{ userInfo, currentChatUser, socket, userLanguage }, dispatch] =
@@ -148,15 +149,15 @@ function MessageBar() {
               </div>
             )}
 
-            <ImAttachment
+            <FaImage
               className="text-panel-header-icon cursor-pointer text-xl"
               title="Attach File"
               onClick={() => setGrabPhoto(true)}
             />
 
-            <ImCalendar
+            <LuCalendarClock
               className="text-panel-header-icon cursor-pointer text-xl"
-              title="Schedule Date & Time"
+              title="Schedule Message"
               onClick={() => setGrabDateTime(!grabDateTime)}
             />
             {grabDateTime && (
@@ -192,7 +193,7 @@ function MessageBar() {
               ) : (
                 <FaMicrophone
                   className="text-panel-header-icon cursor-pointer text-xl"
-                  title="Record "
+                  title="Record Message"
                   onClick={() => setShowAudioRecorder(true)}
                 />
               )}

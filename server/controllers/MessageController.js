@@ -233,42 +233,71 @@ export const scheduleMessage = async (req, res, next) => {
   try {
     console.log("schedule msg backend");
     const referenceTime = new Date(scheduledTime);
-    if(Date.now()>=referenceTime){
+    if (Date.now() >= referenceTime) {
       console.log("done");
       throw new Error("past date");
       return;
-    } 
-    const job = schedule.scheduleJob(
-      scheduledTime,
-      async function () {
-        try {
-          const prisma = getPrismaInstance();
-          const { message, from, to } = req.body;
-          const isReceiverOnline = onlineUsers.get(to);
-          if (message && from && to) {
-            const newMessage = await prisma.message.create({
-              data: {
-                message,
-                sender: { connect: { id: parseInt(from) } },
-                receiver: { connect: { id: parseInt(to) } },
-                messageStatus: isReceiverOnline ? "delivered" : "sent",
-              },
-              // select: { sender: true, receiver: true },
-            });
-            console.log("schedule msg backend done");
-            return res.status(201).send({ message: newMessage });
-          }
-          console.log("error in schedule msg backend");
-          return res
-            .status(400)
-            .send("Invalid message, sender or receiver data");
-        } catch (error) {
-          next(error);
-          console.log("error in schedule msg backend 2");
+    }
+    const job = schedule.scheduleJob(scheduledTime, async function () {
+      try {
+        const prisma = getPrismaInstance();
+        const { message, from, to } = req.body;
+        const isReceiverOnline = onlineUsers.get(to);
+        if (message && from && to) {
+          const newMessage = await prisma.message.create({
+            data: {
+              message,
+              sender: { connect: { id: parseInt(from) } },
+              receiver: { connect: { id: parseInt(to) } },
+              messageStatus: isReceiverOnline ? "delivered" : "sent",
+            },
+            // select: { sender: true, receiver: true },
+          });
+          console.log("schedule msg backend done");
+          return res.status(201).send({ message: newMessage });
         }
+        console.log("error in schedule msg backend");
+        return res.status(400).send("Invalid message, sender or receiver data");
+      } catch (error) {
+        next(error);
+        console.log("error in schedule msg backend 2");
       }
-    );
+    });
   } catch (error) {
     next(error);
+  }
+};
+
+export const deleteMsg = async (req, res, next) => {
+  try {
+    const prisma = getPrismaInstance();
+    const messageId = parseInt(req.params.messageId, 10);
+    // const { userId } = req.body;
+
+    // const message = await prisma.message.findUnique({
+    //   where: {
+    //     id: messageId,
+    //   },
+    // });
+    // console.log(message);
+
+    let deletedMessage;
+    // if (message.deletedBy.length) {
+      deletedMessage = await prisma.message.delete({
+        where: {
+          id: messageId,
+        },
+      });
+    // } else {
+    //   deletedMessage = await prisma.message.update({
+    //     where: { id: messageId },
+    //     data: { deletedBy: [userId] },
+    //   });
+    // }
+
+    return res.json({ deletedMessage });
+  } catch (error) {
+    console.log(error);
+    next();
   }
 };

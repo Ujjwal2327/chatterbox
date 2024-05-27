@@ -99,8 +99,8 @@ function VoiceMessage({ message }) {
             type="sm"
             image={
               message.senderId === currentChatUser?.id
-                ? currentChatUser.profilePicture
-                : userInfo.profileImage
+                ? currentChatUser?.profilePicture
+                : userInfo?.profileImage
             }
           />
         </div>
