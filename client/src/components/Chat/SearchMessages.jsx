@@ -18,6 +18,7 @@ function SearchMessages() {
           message.type === "text" &&
           message.message.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      searchMessages.reverse();
       setSearchedMessages(searchMessages);
     } else setSearchedMessages([]);
   }, [searchTerm, messagesSearch]);

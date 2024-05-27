@@ -22,7 +22,7 @@ function Main() {
   const router = useRouter();
   const [redirectLogin, setRedirectLogin] = useState(false);
   const [
-    { userInfo, currentChatUser, messagesSearch, userLanguage },
+    { userInfo, currentChatUser, messagesSearch, messages, userLanguage },
     dispatch,
   ] = useStateProvider();
   const socket = useRef();
@@ -116,6 +116,9 @@ function Main() {
         //   text: data.message,
         // });
         // data.message = await translate(data);
+
+        console.log(currentChatUser);
+
         dispatch({
           type: reducerCases.ADD_MESSAGE,
           newMessage: { ...data.message },

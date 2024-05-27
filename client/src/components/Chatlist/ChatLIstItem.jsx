@@ -5,11 +5,13 @@ import { reducerCases } from "@/context/constants";
 import { calculateTime } from "@/utils/CalculateTime";
 import MessageStatus from "../common/MessageStatus";
 import { FaCamera, FaMicrophone } from "react-icons/fa";
+import axios from "axios";
+import { CHANGE_CURRENT_CHAT_USER } from "@/utils/ApiRoutes";
 
 function ChatLIstItem({ data, isContactsPage = false }) {
   const [{ userInfo }, dispatch] = useStateProvider();
 
-  const handleContactClick = () => {
+  const handleContactClick = async () => {
     if (!isContactsPage) {
       dispatch({ type: reducerCases.SET_ALL_CONTACTS_PAGE });
       dispatch({
@@ -28,6 +30,14 @@ function ChatLIstItem({ data, isContactsPage = false }) {
         },
       });
     }
+    // try {
+    //   await axios.post(`${CHANGE_CURRENT_CHAT_USER}`, {
+    //     userId: userInfo.id,
+    //     currentChatUserId: data.id,
+    //   });
+    // } catch (error) {
+    //   console.log("error in chatlistitem/handlecontactclick", error);
+    // }
   };
 
   return (

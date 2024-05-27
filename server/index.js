@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/AuthRoutes.js";
 import messageRoutes from "./routes/MessageRoutes.js";
 import translateRoute from "./routes/AWSTranslateRoute.js";
+import userRoutes from "./routes/UserRoutes.js";
 import { Server } from "socket.io";
 import { translate } from "./controllers/AWSTranslateController.js";
 import getPrismaInstance from "./utils/PrismaClient.js";
@@ -18,6 +19,7 @@ app.use("/uploads/images", express.static("uploads/images"));
 app.use("/uploads/recordings", express.static("uploads/recordings"));
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/translate", translateRoute);
 

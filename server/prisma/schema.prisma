@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  id               Int       @id @default(autoincrement())
-  email            String    @unique
-  name             String
-  profilePicture   String    @default("")
-  about            String    @default("")
-  sentMessages     Message[] @relation("sentMessages")
-  receivedMessages Message[] @relation("receivedMessages")
-  language         String    @default("null")
+  id                Int       @id @default(autoincrement())
+  email             String    @unique
+  name              String
+  profilePicture    String    @default("")
+  about             String    @default("")
+  sentMessages      Message[] @relation("sentMessages")
+  receivedMessages  Message[] @relation("receivedMessages")
+  language          String    @default("null")
+  currentChatUserId Int       @default(-1)
 }
 
 model Message {
