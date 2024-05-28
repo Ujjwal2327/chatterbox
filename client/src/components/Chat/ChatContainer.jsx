@@ -21,7 +21,6 @@ function ChatContainer({ loading }) {
 
   const deleteMsg = async (messageId) => {
     try {
-      console.log(messages);
       await axios.post(`${DELETE_MSG_ROUTE}/${messageId}`, {
         userId: userInfo.id,
       });
@@ -66,7 +65,7 @@ function ChatContainer({ loading }) {
                         : "justify-end"
                     }`}
                   >
-                    {message.senderId === currentChatUser?.id && (
+                    {/* {message.senderId === currentChatUser?.id && (
                       <div className="text-white items-center justify-center hidden group-hover:block hover:cursor-pointer">
                         <MdDelete
                           onClick={async () => {
@@ -74,7 +73,7 @@ function ChatContainer({ loading }) {
                           }}
                         />
                       </div>
-                    )}
+                    )} */}
 
                     {message.type === "text" && (
                       <div
