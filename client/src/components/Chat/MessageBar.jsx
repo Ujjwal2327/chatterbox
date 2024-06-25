@@ -12,8 +12,8 @@ import axios from "axios";
 import { reducerCases } from "@/context/constants";
 import EmojiPicker from "emoji-picker-react";
 import PhotoPicker from "../common/PhotoPicker";
-import dynamic from "next/dynamic";
 import ScheduleModal from "./ScheduleModal";
+import dynamic from "next/dynamic";
 const CaptureAudio = dynamic(() => import("../common/CaptureAudio"), {
   ssr: false,
 });

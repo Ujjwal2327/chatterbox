@@ -69,7 +69,7 @@ function onboarding() {
   return (
     <div className="flex flex-col justify-center items-center gap-6 bg-panel-header-background text-white w-screen min-h-screen pb-10">
       <div className="flex items-center justify-center gap-2">
-        <Image src="/logo.png" alt="logo" width={300} height={300} />
+        <Image src="/logo.png" alt="logo" width={300} height={300}  className="rounded-lg" />
         <span className="text-7xl hidden sm:block">Sandesha</span>
       </div>
       <h2 className="text-2xl">Create your profile</h2>
